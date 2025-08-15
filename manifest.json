@@ -1,0 +1,22 @@
+{
+  "name": "Order Manager PWA",
+  "short_name": "Orders",
+  "description": "Manage orders, products, and borrowers offline",
+  "start_url": "./orders.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007aff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
