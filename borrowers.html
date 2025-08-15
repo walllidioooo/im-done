@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="manifest" href="./manifest.json">
+  <script> console.log("before the main js")</script>
+  <script src="./js/main.js"></script>
+  <script>console.log("after the main js")</script> 
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const role = localStorage.getItem("userRole");
+
+  if (role !== "owner") {
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;text-align:center;gap:20px;">
+        <h2>Sorry, you are not the owner and cannot view this page.</h2>
+        <a href="./orders.html" 
+           style="padding:10px 20px;background:#007bff;color:white;text-decoration:none;border-radius:5px;font-size:16px;">
+           🛒 Go to Orders
+        </a>
+      </div>
+    `;
+  }
+});
+</script>
+<meta name="theme-color" content="#007aff">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>👥 Borrowers</title>
+  <link rel="stylesheet" href="../css/borrowers.css">
+</head>
+<body>
+  <!-- Full-width Navigation Bar -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-links">
+      <a href="./orders.html" class="nav-link" aria-label="View Orders">
+        🛒<span class="nav-text"> Orders</span>
+      </a>
+      <a href="./products.html" class="nav-link" aria-label="View Products">
+        📦<span class="nav-text"> Products</span>
+      </a>
+      <a href="./borrowers.html" class="nav-link active" aria-label="View Borrowers" aria-current="page">
+        👥<span class="nav-text"> Borrowers</span>
+      </a>
+      <a href="./statistics.html" class="nav-link" aria-label="View Statistics">
+        📊<span class="nav-text"> Statistics</span>
+      </a>
+      <a href="./import_export.html" class="nav-link" aria-label="Import/Export Data">
+        🔄<span class="nav-text"> Import/Export</span>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-header">
+      <h1>👥 Borrower Manager</h1>
+    </header>
+
+    <div class="actions-container">
+      <label for="searchBorrowerInput" class="visually-hidden">Search borrowers</label>
+      <input type="text" id="searchBorrowerInput" placeholder="🔍 Search borrowers..." aria-describedby="search-hint">
+      <span id="search-hint" class="visually-hidden">Enter a borrower's name to filter the list</span>
+      <div class="action-buttons">
+        <button id="sortByDateBtn" aria-label="Sort borrowers by date">📅 Date</button>
+        <button id="sortByAmountBtn" aria-label="Sort borrowers by amount">💰 Amount</button>
+      </div>
+    </div>
+
+    <!-- Container for the dynamically generated table -->
+    <div id="borrowersContainer" role="region" aria-live="polite">
+      <!-- The borrowers table will be injected here by JS -->
+    </div>
+
+    <!-- Container for pagination controls -->
+    <div id="pagination-container" aria-label="Pagination controls"></div>
+  </main>
+
+  <!-- Modal for Editing Borrower Amount -->
+  <div id="borrowerModal" class="modal hidden" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <button id="closeModal" class="close" aria-label="Close modal">&times;</button>
+      <h2 id="modalTitle">Edit Borrower Debt</h2>
+      <form id="borrowerForm" aria-describedby="modalBody">
+        <div id="modalBody">
+          <!-- Form fields will be injected here by JS -->
+        </div>
+        <button type="submit" id="saveBorrowerBtn">Save</button>
+      </form>
+    </div>
+  </div>
+ 
+
+  <!-- SQL.js (loaded with defer for performance) -->
+  <script src="https://sql.js.org/dist/sql-wasm.js" defer></script>
+
+  <!-- Main App Bootstrap -->
+  <script type="module">
+    import { initDatabase } from '../js/db.js';
+    import { setupBorrowersUI } from '../ui/borrowers_ui.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await initDatabase();
+        await setupBorrowersUI();
+      } catch (error) {
+        console.error('Failed to initialize application:', error);
+        document.body.innerHTML = `
+          <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;text-align:center;gap:20px;">
+            <h2>Failed to load the application. Please try again later.</h2>
+            <a href="./orders.html" style="padding:10px 20px;background:#007bff;color:white;text-decoration:none;border-radius:5px;font-size:16px;">
+              🛒 Go to Orders
+            </a>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
