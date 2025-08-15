@@ -1,0 +1,164 @@
+/* --- General Body & Typography (Consistent Theme) --- */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* --- THE FIX IS HERE: Matched with the other pages --- */
+/* --- Navigation Bar (Consistent Theme) --- */
+.main-nav {
+  width: 100%;
+  background-color: #ffffff;
+  /* This padding creates the space from the top and bottom */
+  padding: 1rem 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  /* Make the nav bar a flex container to center its child */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  /* Distribute items evenly to take up the available space */
+  justify-content: space-around;
+  align-items: center;
+  width: 100%; /* Ensure it can fill the parent... */
+  max-width: 1100px; /* ...up to a reasonable maximum width */
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #334155;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.nav-link:hover { background-color: #f1f5f9; color: #000; transform: translateY(-2px); }
+.nav-link.active { background-color: #007aff; color: white; font-weight: 600; box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2); }
+/* --- End of Fix --- */
+
+
+/* --- Page Header (Consistent Theme) --- */
+.page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+}
+
+/* --- General Element Styling --- */
+button, input, select {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease;
+}
+
+button {
+  background-color: #007aff;
+  color: white;
+  border-color: #007aff;
+  font-weight: 500;
+  cursor: pointer;
+}
+button:hover { background-color: #006ae6; transform: translateY(-1px); }
+button:disabled { background: #ccc; border-color: #ccc; cursor: not-allowed; }
+
+input:focus, select:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+  outline: none;
+}
+input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+/* --- Card Layout --- */
+.card {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.card h2 { margin-top: 0; color: #1e293b; }
+.card p { color: #475569; margin: 0.5rem 0 1rem 0; }
+.control-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+.control-group input[type="text"] { flex-grow: 1; }
+
+/* --- Danger Zone --- */
+.danger-zone { border-left: 5px solid #dc3545; }
+.danger-btn { background-color: #dc3545; border-color: #dc3545; }
+.danger-btn:hover { background-color: #c82333; }
+
+/* --- Status Messages --- */
+#status-area .status {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.status.success { background: #d4edda; color: #155724; border-color: #c3e6cb; }
+.status.error { background: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+.status.info { background: #d1ecf1; color: #0c5460; border-color: #bee5eb; }
+
+#auth-status { font-weight: bold; color: #475569; }
+
+/* --- Preformatted Text for Output --- */
+pre {
+  background: #f1f5f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+  color: #334155;
+  line-height: 1.7;
+}
+
+/* --- Mobile View: Icon Only --- */
+@media screen and (max-width: 768px) {
+  .nav-link .nav-text {
+    display: none; /* hides the text, keeps the icon visible */
+  }
+
+  .main-nav {
+      padding: 0.5rem 0;
+  }
+  
+  .nav-link {
+    padding: 10px;
+    justify-content: center;
+  }
+}

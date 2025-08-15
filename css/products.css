@@ -1,0 +1,361 @@
+/* --- General & Reusable Styles --- */
+
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0; /* Allows nav to be full-width */
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem; /* Keeps content from touching edges */
+}
+
+/* --- Navigation Bar --- */
+.main-nav {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 1rem 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: padding 0.2s ease;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #334155;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.nav-link:hover { background-color: #f1f5f9; color: #000; }
+.nav-link.active { background-color: #007aff; color: white; font-weight: 600; }
+.nav-text { transition: all 0.2s ease; }
+
+/* --- Header & Actions --- */
+.page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+.actions-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 25px;
+}
+#searchInput {
+  flex-grow: 1;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#searchInput:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+  outline: none;
+}
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+button {
+  padding: 10px 15px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: #e9ecef;
+  color: #343a40;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+button:hover:not(:disabled) {
+  background-color: #dee2e6;
+  transform: translateY(-1px);
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* --- Scanner Feedback Bar --- */
+.scanner-feedback-container {
+  background-color: #28a745;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  transition: opacity 0.3s ease, transform 0.3s ease, padding 0.3s, margin 0.3s;
+  transform-origin: top;
+}
+.scanner-feedback-container.hidden {
+  opacity: 0;
+  transform: scaleY(0);
+  height: 0;
+  padding: 0 1rem;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+/* --- Product Table --- */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-table thead {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.product-table th,
+.product-table td {
+  padding: 8px 12px; /* Slimmer padding for skinnier rows */
+  text-align: left;
+  vertical-align: middle;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem; /* Slightly smaller text for compactness */
+}
+
+.product-table tbody tr:not(.details-row):hover {
+  background-color: #f8fafc;
+}
+
+.product-table tbody tr {
+  border-bottom: 1px solid #eef2f7;
+}
+
+.product-table tbody tr:last-of-type {
+  border-bottom: none;
+}
+
+.product-table td strong {
+  font-weight: 600;
+  color: #1e293b;
+}
+/* --- Special Table Row States --- */
+tr.low-stock-warning td:first-child strong {
+  color: #d93025;
+}
+tr.low-stock-warning td:first-child::before {
+  content: "⚠️ ";
+}
+tr.highlight {
+  animation: highlight-row 2s ease-out;
+}
+@keyframes highlight-row {
+  from { box-shadow: 0 0 0 2px #007aff inset; }
+  to { box-shadow: 0 0 0 0px #007aff inset; }
+}
+
+
+/* --- Table Action Buttons --- */
+.table-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px; /* Smaller padding */
+  font-size: 0.8rem; /* More compact text */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #e6f4ff;
+  color: #007aff;
+}
+
+.delete-btn {
+  background-color: #fbeae9;
+  color: #c82333;
+}
+/* --- Pagination & Modal --- */
+#pagination-container {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+#pagination-container span {
+  margin: 0 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+.modal:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease;
+}
+.modal-content {
+  background-color: #fefefe;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+.modal:not(.hidden) .modal-content {
+    transform: scale(1);
+}
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#modalTitle { margin-top: 0; margin-bottom: 1.5rem; }
+#modalBody .form-group { margin-bottom: 1rem; }
+#modalBody label { display: block; font-weight: 500; margin-bottom: 0.5rem; color: #495057; }
+#modalBody input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+#modalBody input[readonly] { background-color: #e9ecef; cursor: not-allowed; }
+#submitModal { width: 100%; padding: 14px; font-size: 1.1rem; font-weight: bold; color: white; background-color: #28a745; border: none; border-radius: 8px; margin-top: 1rem; }
+
+/* --- Statistics Overlay --- */
+.overlay {
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.overlay-content {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 650px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  animation: slideIn 0.4s ease-out;
+}
+@keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.overlay-content h2 { margin-top: 0; border-bottom: 2px solid #e9ecef; padding-bottom: 15px; }
+.overlay-content ul { list-style: none; padding: 0; }
+.overlay-content li { padding: 10px 0; border-bottom: 1px solid #f1f1f1; display: flex; justify-content: space-between; }
+#closeStatsOverlay { display: block; width: 100%; margin-top: 30px; padding: 12px; background-color: #6c757d; color: white; }
+
+
+/* ============================================== */
+/* === RESPONSIVE STRATEGY FOR MOBILE (UPDATED) === */
+/* ============================================== */
+@media screen and (max-width: 768px) {
+
+  main { padding: 1rem; }
+
+  .page-header h1 { font-size: 1.8rem; }
+  
+  /* Skinny, icon-only navigation bar */
+  .main-nav { padding: 0.5rem 0; }
+  .nav-link { padding: 10px; }
+  .nav-link .nav-text {
+    /* Hides the text in the nav links */
+    display: none;
+  }
+  
+  /* Compact, horizontal table */
+  .product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+  
+  .product-table th, .product-table td {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+
+  .product-table .mobile-hidden {
+    display: none;
+  }
+
+  .product-table td {
+  padding: 8px 12px; /* Slimmer padding for skinnier rows */
+  text-align: left;
+  vertical-align: middle;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem; /* Slightly smaller text for compactness */
+}
+
+
+  .table-actions button {
+    padding: 8px;
+    font-size: 1rem; /* Increase icon size slightly for better touch target */
+    gap: 0; /* Remove gap when text is hidden */
+  }
+  .table-actions .button-text {
+    /* Hides the text in the action buttons */
+    display: none;
+  }
+}@media screen and (max-width: 768px) {
+  .table-actions button {
+    padding: 6px;
+    font-size: 1rem; /* bigger icons */
+  }
+
+  .table-actions button span {
+    display: none; /* hide text labels */
+  }
+}

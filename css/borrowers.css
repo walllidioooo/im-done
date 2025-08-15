@@ -1,0 +1,155 @@
+/* --- General & Reusable Styles --- */
+
+
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0; /* Allows nav to be full-width */
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem; /* Keeps content from touching edges */
+}
+
+/* --- Navigation Bar --- */
+.main-nav {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 1rem 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center; /* This centers the .nav-links container */
+  align-items: center;
+  transition: padding 0.2s ease;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: nowrap;
+  
+  /* ================================================= */
+  /* === THE FIX IS HERE === */
+  /* Distribute items evenly instead of centering them */
+  justify-content: space-around; 
+  /* ================================================= */
+
+  align-items: center;
+  width: 100%; /* Ensure the container can fill the space */
+  max-width: 1100px; /* An optional max-width for very large screens */
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #334155;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.nav-link:hover { background-color: #f1f5f9; color: #000; }
+.nav-link.active { background-color: #007aff; color: white; font-weight: 600; }
+.nav-text { transition: all 0.2s ease; }
+
+/* --- Header & Actions --- */
+.page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+.actions-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 25px;
+}
+#searchBorrowerInput { flex-grow: 1; padding: 12px 15px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; }
+.action-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+button { padding: 10px 15px; font-size: 0.95rem; font-weight: 500; border-radius: 8px; border: 1px solid transparent; background-color: #e9ecef; color: #343a40; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: 0.6; }
+
+/* --- Borrower Table --- */
+.borrower-table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; }
+.borrower-table thead { background-color: #f1f5f9; color: #475569; }
+.borrower-table th, .borrower-table td { padding: 15px 20px; text-align: left; vertical-align: middle; transition: all 0.2s ease; }
+.borrower-table tbody tr:not(.details-row):hover { background-color: #f8fafc; }
+.borrower-table td strong { font-weight: 600; color: #1e293b; }
+
+/* --- Table Action Buttons --- */
+.table-actions { display: flex; gap: 8px; }
+.table-actions button { display: flex; align-items: center; gap: 6px; justify-content: center; padding: 6px 12px; font-size: 0.9rem; border: none; }
+.edit-borrower-btn { background-color: #e6f4ff; color: #007aff; }
+.delete-borrower-btn { background-color: #fbeae9; color: #c82333; }
+.show-orders-btn { background-color: #e9ecef; color: #343a40; }
+
+/* --- Expandable Details Row --- */
+.details-row td { background-color: #f8fafc; padding: 20px; border-top: 2px solid #eef2f7; }
+.order-box { background: #fff; border: 1px solid #e9ecef; border-radius: 6px; padding: 15px; margin-bottom: 10px; }
+.products-container { padding: 10px; margin-top: 10px; background: #f1f3f5; border-radius: 4px; font-size: 0.9em; color: #555; }
+
+/* --- Pagination & Modal --- */
+#pagination-container { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
+.modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+.modal-content { background-color: #fefefe; padding: 25px 30px; border-radius: 12px; width: 90%; max-width: 500px; }
+#submitModal { width: 100%; padding: 14px; font-size: 1.1rem; font-weight: bold; color: white; background-color: #28a745; border: none; border-radius: 8px; margin-top: 1rem; }
+.hidden { display: none; }
+
+/* ============================================== */
+/* === RESPONSIVE STRATEGY FOR MOBILE === */
+/* ============================================== */
+@media screen and (max-width: 768px) {
+
+  main { padding: 1rem; }
+
+  .page-header h1 { font-size: 1.8rem; }
+  
+  /* Skinny, icon-only navigation bar */
+  .main-nav { padding: 0.5rem 0; }
+  .nav-link { padding: 10px; }
+  .nav-link .nav-text { display: none; }
+  
+  /* Compact, horizontal table */
+  .borrower-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .borrower-table th, .borrower-table td {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+
+  .borrower-table .mobile-hidden {
+    display: none;
+  }
+
+  .borrower-table td {
+    white-space: normal;
+  }
+
+  .table-actions button {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+  .table-actions .button-text {
+      display: none;
+  }
+  
+  .details-row td {
+      white-space: normal;
+  }
+  .order-box {
+      padding: 10px;
+  }
+}
