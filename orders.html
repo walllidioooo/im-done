@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧾 Orders</title>
+  <link rel="manifest" href="./manifest.json">
+  <script src="./js/main.js"></script>
+<meta name="theme-color" content="#007aff">
+  
+  <!-- Using a CDN for icons, as it's a good practice -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  
+  <style>
+    /* --- General & Reusable Styles --- */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0; /* Allows nav to be full-width */
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem; /* Keeps content from touching edges */
+    }
+
+    /* --- Navigation Bar --- */
+    .main-nav {
+      width: 100%;
+      background-color: #ffffff;
+      padding: 1rem 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: padding 0.2s ease;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-around; 
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #334155;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .nav-link:hover { background-color: #f1f5f9; color: #000; }
+    .nav-link.active { background-color: #007aff; color: white; font-weight: 600; }
+    .nav-text { transition: all 0.2s ease; }
+
+    /* --- Header & Actions --- */
+    .page-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #2c3e50;
+    }
+    
+    .actions-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      flex-grow: 1; /* Allow buttons to take available space */
+    }
+
+    button { 
+      padding: 10px 15px; 
+      font-size: 0.95rem; 
+      font-weight: 500; 
+      border-radius: 8px; 
+      border: 1px solid transparent; 
+      background-color: #e9ecef; 
+      color: #343a40; 
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    #addOrderBtn {
+      background-color: #007aff;
+      color: white;
+      font-weight: 600;
+    }
+
+    #manageUsersBtn {
+      background: none;
+      color: #6c757d;
+      padding: 8px;
+    }
+    #manageUsersBtn:hover {
+        background-color: #e9ecef;
+        color: #007aff;
+    }
+    
+    /* --- Orders List --- */
+    #ordersList {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .order-item {
+      background: #fff;
+      border: 1px solid #eef2f7;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: box-shadow 0.2s ease;
+    }
+    .order-item:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+    }
+    
+    /* --- Modal Styles --- */
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      padding: 25px 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 800px; /* Adjusted for potentially wider order content */
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #aaa;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .close:hover { color: #333; }
+    .hidden { display: none; }
+    
+    /* --- Privacy/Worker Mode --- */
+    /* This rule hides elements with the 'privacy-data' class when in worker mode */
+    body.worker-mode .privacy-data {
+      display: none !important;
+    }
+
+    /* === RESPONSIVE STRATEGY FOR MOBILE === */
+    @media screen and (max-width: 768px) {
+      main { padding: 1rem; }
+      .page-header h1 { font-size: 1.8rem; }
+      
+      /* Skinny, icon-only navigation bar */
+      .main-nav { padding: 0.5rem 0; }
+      .nav-link { padding: 10px; }
+      .nav-link .nav-text { display: none; }
+
+      .actions-container { flex-direction: column; align-items: stretch; }
+      .action-buttons { justify-content: space-between; }
+      button { justify-content: center; } /* Center button content */
+      
+      .order-item { padding: 1rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Full-width Navigation Bar -->
+  <nav class="main-nav">
+    <div class="nav-links">
+      <a href="./orders.html" class="nav-link active">🛒<span class="nav-text"> Orders</span></a>
+      <a href="./products.html" class="nav-link">📦<span class="nav-text"> Products</span></a>
+      <a href="./borrowers.html" class="nav-link">👥<span class="nav-text"> Borrowers</span></a>
+      <a href="./statistics.html" class="nav-link">📊<span class="nav-text"> Statistics</span></a>
+      <a href="./import_export.html" class="nav-link">🔄<span class="nav-text"> Import/Export</span></a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-header">
+        <h1>🧾 Order Manager</h1>
+    </header>
+    
+    <div class="actions-container">
+      <div class="action-buttons">
+          <button id="addOrderBtn">➕<span class="button-text"> New Order</span></button>
+          <button id="showStatsBtn" class="privacy-data">📊<span class="button-text"> Statistics</span></button>
+          <button id="sortByDateBtn">📅<span class="button-text"> By Date</span></button>
+          <button id="sortByTotalBtn">💰<span class="button-text"> By Total</span></button>
+          <button id="sortByProfitBtn" class="privacy-data">📈<span class="button-text"> By Profit</span></button>
+      </div>
+      <!-- Relocated Privacy/Settings Button -->
+      <button id="manageUsersBtn" title="Manage Users & Passwords"><i class="bi bi-gear-fill"></i></button>
+    </div>
+
+    <ul id="ordersList">
+      <!-- Order items will be injected here by JavaScript -->
+    </ul>
+  </main>
+
+  <!-- MODALS: HTML Structure is preserved for JS functionality -->
+  <!-- Order Modal -->
+  <div id="orderModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2 id="modalTitle">New Order</h2>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Statistics Modal -->
+  <div id="statsModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeStatsModal" class="close">&times;</span>
+      <h2>📊 Order Statistics</h2>
+      <div id="statsModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Borrower Modal -->
+  <div id="borrowerModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeBorrowerModal" class="close">&times;</span>
+      <h2>Link Order to Borrower</h2>
+      <div id="borrowerModalBody"></div>
+    </div>
+  </div>
+  
+
+  <script src="https://sql.js.org/dist/sql-wasm.js"></script>
+
+  <!-- SCRIPT 1: Authentication Logic (Runs first) - UNCHANGED -->
+  <script>
+    const ROLE_KEY = "userRole", CREDS_KEY = "userCredentials";
+    function getCredentials() { const c = localStorage.getItem(CREDS_KEY); return c ? JSON.parse(c) : { owner: "123", worker: "456" }; }
+    function saveCredentials(c) { localStorage.setItem(CREDS_KEY, JSON.stringify(c)); }
+    function initializeAuth() {
+        let r = localStorage.getItem(ROLE_KEY);
+        if (!r) {
+            const c = getCredentials(), p = prompt(`Login Required:\n\n(Default: owner='123', worker='456')`);
+            if (p === c.owner) r = "owner"; else if (p === c.worker) r = "worker"; else { alert("Incorrect Password!"); location.reload(); return; }
+            localStorage.setItem(ROLE_KEY, r);
+        }
+        document.body.classList.toggle('worker-mode', r === 'worker');
+
+        if (r === 'worker') {
+            const currentPath = window.location.pathname.split('/').pop();
+            const allowedPages = ['orders.html'];
+            if (!allowedPages.includes(currentPath)) {
+                alert("Access Denied. Redirecting to the Orders page.");
+                window.location.href = './orders.html';
+            }
+        }
+    }
+    function setupUserManagement() {
+    document.getElementById("manageUsersBtn").addEventListener("click", () => {
+        let cr = localStorage.getItem(ROLE_KEY), c = getCredentials();
+        if (cr === 'owner') {
+            const a = prompt("Owner Menu:\n1: Log Out\n2: Change Owner Pass", "1");
+            if (a === '1') {
+                localStorage.setItem(ROLE_KEY, 'worker');
+                alert("Logged out.");
+                location.reload();
+            }
+            else if (a === '2') {
+                const np = prompt(`New password for 'owner':`);
+                if (np && np.length > 2) {
+                    c.owner = np;
+                    saveCredentials(c);
+                    alert(`Password for 'owner' updated!`);
+                } else {
+                    alert("Password too short.");
+                }
+            }
+        } else {
+            const op = prompt("Owner password required:");
+            if (op === c.owner) {
+                localStorage.setItem(ROLE_KEY, 'owner');
+                alert("Verification successful!");
+                location.reload();
+            } else {
+                alert("Incorrect password.");
+            }
+        }
+    });
+}
+    initializeAuth();
+    setupUserManagement();
+  </script>
+
+  <!-- SCRIPT 2: Your App Logic (Runs second) - UNCHANGED -->
+  <script type="module">
+    import { initDatabase } from '../js/db.js';
+    import { setupOrdersUI } from '../ui/orders_ui.js';
+    document.addEventListener('DOMContentLoaded', async () => {
+      try { 
+        await initDatabase(); 
+        await setupOrdersUI(); 
+      } 
+      catch(e) { 
+        console.error("Error initializing UI:", e); 
+      }
+    });
+  </script>
+</body>
+</html>
