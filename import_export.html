@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="./manifest.json">
+  <script src="./js/main.js"></script>
+<meta name="theme-color" content="#007aff">
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const role = localStorage.getItem("userRole");
+
+  if (role !== "owner") {
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;text-align:center;gap:20px;">
+        <h2>Sorry, you are not the owner and cannot view this page.</h2>
+        <a href="./orders.html" 
+           style="padding:10px 20px;background:#007bff;color:white;text-decoration:none;border-radius:5px;font-size:16px;">
+           🛒 Go to Orders
+        </a>
+      </div>
+    `;
+  }
+});
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>☁️ Import/Export</title>
+  
+  <link rel="stylesheet" href="./css/import_export.css" />
+</head>
+<body>
+
+  <!-- Full-width Navigation Bar -->
+  <nav class="main-nav">
+    <div class="nav-links">
+      <a href="./orders.html" class="nav-link">🛒 <span class="nav-text">Orders</span></a>
+      <a href="./products.html" class="nav-link">📦 <span class="nav-text">Products</span></a>
+      <a href="./borrowers.html" class="nav-link">👥 <span class="nav-text">Borrowers</span></a>
+      <a href="./statistics.html" class="nav-link">📊 <span class="nav-text">Statistics</span></a>
+      <a href="./import_export.html" class="nav-link active">🔄 <span class="nav-text">Import/Export</span></a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-header">
+      <h1>☁️ Google Drive Manager</h1>
+    </header>
+
+    <div id="status-area"></div>
+
+    <!-- Authentication -->
+    <div class="card">
+      <h2>Authentication</h2>
+      <p>Connect your Google account to enable cloud import and export.</p>
+      <div id="auth-status">Awaiting sign-in...</div>
+    </div>
+
+    <!-- Export -->
+    <div class="card">
+      <h2>⬆️ Export to Cloud</h2>
+      <p>Save the current local database to your Google Drive.</p>
+      <button id="export-db-to-drive-btn">Export Database to Google Drive</button>
+      <!-- The redundant 'exported-file-id' input has been removed -->
+    </div>
+
+    <!-- Import -->
+    <div class="card">
+      <h2>⬇️ Import from Cloud</h2>
+      <p>Replace the local database with a file from your Google Drive. <strong>This will overwrite local data.</strong></p>
+      <div class="control-group">
+        <input type="text" id="drive-file-id" placeholder="Last exported ID will appear here..." />
+        <button id="import-db-from-drive-btn">Import Database</button>
+      </div>
+    </div>
+
+    <!-- Database Viewer -->
+    <div class="card">
+      <h2>📄 Database Viewer</h2>
+      <p>Inspect the contents of the tables in the currently loaded database.</p>
+      <div class="control-group">
+        <select id="table-selector">
+          <option value="">Select a table...</option>
+        </select>
+        <label for="row-limit">Limit:</label>
+        <input type="number" id="row-limit" value="10" min="1" max="1000" />
+        <button id="refresh-table-btn">🔄 Refresh View</button>
+      </div>
+      <pre id="table-output">No table selected</pre>
+    </div>
+
+    <!-- Database Info -->
+    <div class="card">
+      <h2>📊 Database Info</h2>
+      <pre id="db-info">No database loaded</pre>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="card danger-zone">
+      <h2>🧪 Danger Zone</h2>
+      <p>These actions can result in data loss. Use with caution.</p>
+      <div class="control-group">
+        <button id="init-sample-data-btn">Initialize Sample Data</button>
+        <button id="delete-all-data-btn" class="danger-btn">Delete All Data</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Google & SQL.js Libraries -->
+  <script src="https://sql.js.org/dist/sql-wasm.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
+  <!-- Main App Logic -->
+  <script type="module" src="../js/import_export.js"></script>
+
+</body>
+</html>
