@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <link rel="manifest" href="./manifest.json">
+  <script src="./js/main.js"></script>
+<meta name="theme-color" content="#007aff">
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const role = localStorage.getItem("userRole");
+
+  if (role !== "owner") {
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;text-align:center;gap:20px;">
+        <h2>Sorry, you are not the owner and cannot view this page.</h2>
+        <a href="./orders.html" 
+           style="padding:10px 20px;background:#007bff;color:white;text-decoration:none;border-radius:5px;font-size:16px;">
+           🛒 Go to Orders
+        </a>
+      </div>
+    `;
+  }
+});
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Manager</title>
+  
+  <link rel="stylesheet" href="./css/products.css" />
+  
+</head>
+<body>
+
+  <!-- Full-width Navigation Bar -->
+  <nav class="main-nav">
+    <div class="nav-links">
+      <!-- THE FIX IS HERE: Added <span class="nav-text"> to each link -->
+      <a href="./orders.html" class="nav-link">🛒<span class="nav-text"> Orders</span></a>
+      <a href="./products.html" class="nav-link active">📦<span class="nav-text"> Products</span></a>
+      <a href="./borrowers.html" class="nav-link">👥<span class="nav-text"> Borrowers</span></a>
+      <a href="./statistics.html" class="nav-link">📊<span class="nav-text"> Statistics</span></a>
+      <a href="./import_export.html" class="nav-link">🔄<span class="nav-text"> Import/Export</span></a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-header">
+        <h2>📦 Product Manager</h2>
+    </header>
+    
+    <div class="actions-container">
+      <input type="text" id="searchInput" placeholder="🔍 Search products..." />
+      <div class="action-buttons">
+          <button id="scanModeBtn">📠 Scan</button>
+          <button id="addProductBtn">➕ Add</button>
+          <button id="sortByPriceBtn">↕️by Price</button>
+          <button id="sortByStockBtn">⚠️Low Stock</button> <!-- Changed text for clarity -->
+          <button id="sortByNameBtn">🔤by Name</button>
+          <button id="productStatsBtn">📊Statistics</button>
+      </div>
+    </div>
+
+    <!-- This container will show feedback when scan mode is active -->
+    <div id="scanner-feedback" class="scanner-feedback-container hidden"></div>
+
+    <!-- Product Table Container -->
+    <div id="productContainer">
+      <!-- The product table will be injected here by JS -->
+    </div>
+
+    <!-- Pagination Container needs to be added to the HTML -->
+    <div id="pagination-container"></div>
+
+  </main>
+
+  <!-- Overlay Modal (for Add/Update Product) -->
+  <div id="productModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2 id="modalTitle">Modal Title</h2>
+      <!-- The form fields will be injected here dynamically by JS -->
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Load sql.js -->
+   
+  <script src="https://sql.js.org/dist/sql-wasm.js"></script>
+
+  <!-- Main App Bootstrap (waits for DB init) -->
+  <script type="module">
+    import { initDatabase } from './js/db.js';
+    import { setupProductUI } from './ui/products_ui.js';
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase(); // Wait for DB to load
+      await setupProductUI();
+    });
+  </script>
+</body>
+</html>
